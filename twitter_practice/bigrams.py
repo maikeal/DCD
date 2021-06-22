@@ -20,20 +20,20 @@ warnings.filterwarnings("ignore")
 sns.set(font_scale=1.5)
 sns.set_style("whitegrid")
 
-consumer_key= 'Rtb3TFQMq3XU21Ts9iomu8gjR'
-consumer_secret= '9yaD24wAyOKnuEc8NNmu54mSrdrI53RMRDdDAGiMXoBvtZSeL3'
-access_token= '1401632059752435717-JaYiSkecEZPcRpDvypY3QuM6pnQp5C'
-access_token_secret= 'RzcsWDO23CaGGHeOGupEPBHhQj8pgE6f8pGCRsbZdZGiU'
+consumer_key= 'aa5xPHnUlFIVJrMb0QuCSAMFk'
+consumer_secret= 'CsatdSlbLXm4bUiJLKa4ZpDYBxkNEpdYq2zZL3jlaRf1U5VmyF'
+access_token= '1401632059752435717-msitAGNwn4n9Q8ddVk4V0E4eFhVrve'
+access_token_secret= 'StkY7ZMvFF21UYRjc1kXbOBtCans0xuBR53Frw4fGx9DM'
 
 auth = tw.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 api = tw.API(auth, wait_on_rate_limit=True)
 
-search_term = "#BLM -filter:retweets"
+search_term = "#BlackLivesMatter -filter:retweets"
 date_since = (datetime.now() - timedelta(1)).strftime('%Y-%m-%d')
 
 print("before")
-tweets = tw.Cursor(api.search, q=search_term, lang="en", since=date_since).items(100)
+tweets = tw.Cursor(api.search, q=search_term, lang="en", since=date_since).items(500)
 print("after 1")
 
 # get_bios
@@ -93,8 +93,8 @@ nx.draw_networkx(G, pos,
 
 # Create offset labels
 for key, value in pos.items():
-    #x, y = value[0]+.135, value[1]+.045
-    x, y = value[0], value[1]
+    x, y = value[0]+.135, value[1]+.045
+    #x, y = value[0], value[1]
     ax.text(x, y,
             s=key,
             bbox=dict(facecolor='red', alpha=0.25),
