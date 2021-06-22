@@ -33,23 +33,11 @@ def rawToPrev(numerator, denominator):
 	
 	return returnValue
 
-# Create the list of columns for the output db.
-countBiosCols = ["token", "year", "prevalence", "numerator", "denominator", "sampleType"]
-
-# Create an empty output DB with the correct structure and a cursor.
-output_conn = sqlite3.connect(OUTPUT_FILE_NAME)
-output_cursor = output_conn.cursor()
-
-# Create the table which will contain results.
-output_cursor.execute("""CREATE TABLE token_counts_2020
-             (token, year, prevalence, numerator, denominator, sampleType)""")
-
-def tokenize(skip_stop_words=True, tweet_tokenizer=False):
+def tokenize(skip_stop_words=True, skip_pronouns=True, tweet_tokenizer=False, sampleType = "cross"):
 	# We batch all the inserts and write everything at once at the end of the loop.
 	recordsToInsert = []
 	countsDict = {}
-	denom = 0
-	sampleType = "cross"
+	denom = 0	
 
 	REGEX_SEPARATORS = r"\s+|[.,\/!$%\^&\*;:{}=\-_`~()|\[\]\u2022]"
 
@@ -83,49 +71,49 @@ def tokenize(skip_stop_words=True, tweet_tokenizer=False):
 		tokens = set(tokens)
 
 		if skip_stop_words:
-			stop_words = set(stopwords.words('english'))#.update(["com", "http", "https", "www"])
+			stop_words = set(stopwords.words('english'))
+			if not skip_pronouns:
+				stop_words = [stop_word for stop_word in stop_words if not stop_word in ["he","him","his","she","her","hers","they","them","theirs"]]
 			tokens = [token for token in tokens if not token in stop_words]
 
 		for token in tokens:
 			# First, check for empty string.  Do not count it.
 			if token == "":
 				continue
+			#if token == "e":
+			#	print(bioText)
+			# ^ it said the letter "e" was the most prevalent token so I was curious 
 			# Otherwise, add one to count of accounts that contain this token.
 			if token in countsDict:
 				countsDict[token] = countsDict[token] + 1
 			else:
 				countsDict[token] = 1
 
-	# Prepare records to insert.
-	for countedToken in countsDict:
-		# Build a tuple.  It contains the values for a row.
-		insertValuesTuple = ()
-		insertValue = countedToken # token
-		insertValuesTuple += (insertValue,)
-		insertValue = "2020" # year
-		insertValuesTuple += (insertValue,)
-		insertValue = rawToPrev(countsDict[countedToken], denom) # prevalence
-		insertValuesTuple += (insertValue,)
-		insertValue = countsDict[countedToken] # numerator
-		insertValuesTuple += (insertValue,)
-		insertValue = denom # denominator
-		insertValuesTuple += (insertValue,)
-		insertValue = sampleType # sampleType
-		insertValuesTuple += (insertValue,)
-		# Append the tuple (one row for one token) onto a list of records to insert.
-		# But only if the prevalence is greater than zero.
-		# NOTE that this will cut off a long tail of low-frequency, but possibly interesting (to someone) tokens.
-		if (rawToPrev(countsDict[countedToken], denom) > 0):
-			recordsToInsert.append(insertValuesTuple)
-
-	# Execute an insert statement with the values for this run.
-	insertSetup = """INSERT INTO token_counts_2020 VALUES (?,?,?,?,?,?)"""
-	output_conn.executemany(insertSetup, recordsToInsert)
-	# Save (commit) the changes
-	output_conn.commit()
-
-	# Close the connection.
 	input_conn.close()
 	input_cursor = None
+	return countsDict, denom, sampleType
 
-tokenize()
+def recordsGenerator():
+	countsDict, denom, sampleType = tokenize()
+	# Prepare records to insert.
+	for countedToken in countsDict:
+		yield(countedToken, "2020", rawToPrev(countsDict[countedToken], denom), countsDict[countedToken], denom, sampleType,)
+
+
+# Create an empty output DB with the correct structure and a cursor.
+output_conn = sqlite3.connect(OUTPUT_FILE_NAME)
+output_cursor = output_conn.cursor()
+
+# Create the table which will contain results.
+output_cursor.execute("""CREATE TABLE token_counts_2020
+             (token, year, prevalence, numerator, denominator, sampleType)""")
+
+# Execute an insert statement with the values for this run.
+INSERT_SCRIPT = """INSERT INTO token_counts_2020 VALUES (?,?,?,?,?,?)"""
+output_conn.executemany(INSERT_SCRIPT, recordsGenerator())
+# Save (commit) the changes
+output_conn.commit()
+
+# Close the connection.
+output_conn.close()
+output_cursor = None

@@ -22,7 +22,7 @@ if os.path.isfile(OUTPUT_FILE_NAME):
 
 REGEX_SEPARATORS = r"\s+|[.,\/!$%\^&\*;:{}=\-_`~()|\[\]\u2022]" # currently not including # or @ because of their relevance to Twitter text/functionality
 
-def count_cooccurrences(skip_stop_words=True):
+def count_cooccurrences(skip_stop_words=True,  skip_pronouns=False):
 
 	cooccurrence_dict = {}
 	counts_dict = {}
@@ -42,6 +42,8 @@ def count_cooccurrences(skip_stop_words=True):
 
 		if skip_stop_words:
 			stop_words = set(stopwords.words('english'))#.update(["com", "http", "https", "www"])
+			if not skip_pronouns:
+				stop_words = [stop_word for stop_word in stop_words if not stop_word in ["he","him","his","she","her","hers","they","them","theirs"]]
 			tokens = [token for token in tokens if not token in stop_words]
 
 		# MAIN LOOP
@@ -90,8 +92,8 @@ output_cursor = output_conn.cursor()
 output_cursor.execute("""CREATE TABLE cooccurrences
              (token1, token2, cooccurrence)""")
 
-INPUT_SCRIPT = """INSERT INTO cooccurrences VALUES (?,?,?)"""
-output_conn.executemany(INPUT_SCRIPT, recordsGenerator())
+INSERT_SCRIPT = """INSERT INTO cooccurrences VALUES (?,?,?)"""
+output_conn.executemany(INSERT_SCRIPT, recordsGenerator())
 
 # Save (commit) the changes
 output_conn.commit()
