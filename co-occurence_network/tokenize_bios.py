@@ -9,7 +9,7 @@ from nltk.tokenize import TweetTokenizer
 
 # Specify where the bio databases live.
 INPUT_DIR = "data/"
-OUTPUT_DIR = "data/bio_token_counts/"
+OUTPUT_DIR = "data/results/"
 
 OUTPUT_FILE_NAME = OUTPUT_DIR + "token_counts_2020.sqlite"
 
@@ -82,7 +82,7 @@ def tokenize(skip_stop_words=True, skip_pronouns=True, tweet_tokenizer=False, sa
 				continue
 			#if token == "e":
 			#	print(bioText)
-			# ^ it said the letter "e" was the most prevalent token so I was curious 
+			# ^ it said the letter "e" was one of the most prevalent tokens, I was curious 
 			# Otherwise, add one to count of accounts that contain this token.
 			if token in countsDict:
 				countsDict[token] = countsDict[token] + 1
