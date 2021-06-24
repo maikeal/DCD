@@ -7,6 +7,8 @@ import itertools
 import collections
 from datetime import datetime, timedelta
 
+import constants
+
 import tweepy as tw
 import nltk
 from nltk import bigrams
@@ -20,10 +22,10 @@ warnings.filterwarnings("ignore")
 sns.set(font_scale=1.5)
 sns.set_style("whitegrid")
 
-consumer_key= 'aa5xPHnUlFIVJrMb0QuCSAMFk'
-consumer_secret= 'CsatdSlbLXm4bUiJLKa4ZpDYBxkNEpdYq2zZL3jlaRf1U5VmyF'
-access_token= '1401632059752435717-msitAGNwn4n9Q8ddVk4V0E4eFhVrve'
-access_token_secret= 'StkY7ZMvFF21UYRjc1kXbOBtCans0xuBR53Frw4fGx9DM'
+consumer_key= constants.CONSUMER_KEY
+consumer_secret= constants.CONSUMER_SECRET
+access_token= constants.ACCESS_TOKEN
+access_token_secret= constants.ACCESS_TOKEN_SECRET
 
 auth = tw.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
