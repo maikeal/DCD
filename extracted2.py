@@ -6,19 +6,22 @@ import sqlite3
 from datetime import datetime, timedelta
 from tweepy import API
 
-# Set the Twitter API authentication
-api = twitter.Api(consumer_key='eTwR2lbd6dMxCq988wtWnBvGC',
-                  consumer_secret='IEsaSATulZcZyBE6QWxzK97dBU12wB7ORbVBk7kqUrYZNTfOxM',
-                  access_token_key='1404645710058987522-2tHLCZnMazsLg86yBKL3s5ZUrHX6hB',
-                  access_token_secret='B1YbGzAFbRrAOhLS1867uJIVza30v4GLifQIOb7gA04Cm')
+# if you make a file called constants.py and set the API keys as variables and import constants like this,
+# it'll be safer than uploading our keys to Github. 
+# To keep constants.py private what you do is you create a file called .gitignore and then type "constants.py" without the quotes, and then Git will ignore it
+import constants
 
+consumer_key= constants.CONSUMER_KEY
+consumer_secret= constants.CONSUMER_SECRET
+access_token= constants.ACCESS_TOKEN
+access_token_secret= constants.ACCESS_TOKEN_SECRET
+
+auth = tw.OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_token_secret)
+api = tw.API(auth, wait_on_rate_limit=True)
 # These are the accounts for which you will fetch data
 # It's a list of lists, with a category added for each handle
-handles_list = [
-    ['aoc', 'BernieSanders'],
-    ['SenSchumer', 'ewarren'],
-    ['LeaderMcConnell', 'SenGillibrand']
-]
+handles_list = ['aoc', 'BernieSanders', 'SenSchumer', 'ewarren','LeaderMcConnell', 'SenGillibrand']
 
 # Function to add row to accounts table
 def insert_db(handle, category, followers, description):
@@ -43,11 +46,12 @@ conn.close()
 
 #Iterate over handles and hit the API with each
 for handle in handles_list:
-    print ('Fetching @' + handle[0])
+    print ('Fetching @' + handle)
     try:
-        user = api.GetUser(screen_name=handle[2])
-        followers = user.GetFollowersCount()
-        description = user.GetDescription()
-        insert_db(handle[0], category[0], followers, description)
+        user = api.get_user(handle)
+        followers = user.followers_count
+        description = user.description
+        print (description)
+        #insert_db(handle, category[0], followers, description)
     except:
-        print ('-- ' + handle[0] + ' not found')
+        print ('-- ' + handle + ' not found')
