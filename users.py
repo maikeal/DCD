@@ -8,14 +8,14 @@ from datetime import datetime, timedelta
 # Authentication details. To  obtain these visit dev.twitter.com
 # The consumer keys can be found on your application's Details
 # page located at https://dev.twitter.com/apps (under "OAuth settings")
-consumer_key= 'eTwR2lbd6dMxCq988wtWnBvGC'
-consumer_secret= 'IEsaSATulZcZyBE6QWxzK97dBU12wB7ORbVBk7kqUrYZNTfOxM'
+consumer_key= 'gjkjbiukghlkhbiolnknlkn'
+consumer_secret= 'kjvgjkbjkbbkjbjbjkbjbkbklkhhkjvjkvhjvjhvj'
 
 # The access tokens can be found on your applications's Details
 # page located at https://dev.twitter.com/apps (located 
 # under "Your access token")
-access_token= '1404645710058987522-2tHLCZnMazsLg86yBKL3s5ZUrHX6hB'
-access_token_secret= 'B1YbGzAFbRrAOhLS1867uJIVza30v4GLifQIOb7gA04Cm'
+access_token= 'jjkbkjbkbklblkbblk jkbjkbjkbkj'
+access_token_secret= 'hvjhgkjkjbkbklblkblbklbkjbjkbjkbjkbkbkj'
 
 
 
