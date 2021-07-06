@@ -68,7 +68,7 @@ def count_cooccurrences(skip_stop_words=True,  skip_pronouns=False):
 					continue
 				if token_j == token_i:
 					if token_i not in counts_dict:
-						counts_dict[token_i] = 1
+						counts_dict[token_i] = 0
 					counts_dict[token_i] += 1
 					continue
 				if token_j not in cooccurrence_dict[token_i]:
