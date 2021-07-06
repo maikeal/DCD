@@ -1,0 +1,222 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 800px;
+            height: 600px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+        #loadingBar {
+            position:absolute;
+            top:0px;
+            left:0px;
+            width: 800px;
+            height: 600px;
+            background-color:rgba(200,200,200,0.8);
+            -webkit-transition: all 0.5s ease;
+            -moz-transition: all 0.5s ease;
+            -ms-transition: all 0.5s ease;
+            -o-transition: all 0.5s ease;
+            transition: all 0.5s ease;
+            opacity:1;
+        }
+
+        #bar {
+            position:absolute;
+            top:0px;
+            left:0px;
+            width:20px;
+            height:20px;
+            margin:auto auto auto auto;
+            border-radius:11px;
+            border:2px solid rgba(30,30,30,0.05);
+            background: rgb(0, 173, 246); /* Old browsers */
+            box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+        }
+
+        #border {
+            position:absolute;
+            top:10px;
+            left:10px;
+            width:500px;
+            height:23px;
+            margin:auto auto auto auto;
+            box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+            border-radius:10px;
+        }
+
+        #text {
+            position:absolute;
+            top:8px;
+            left:530px;
+            width:30px;
+            height:50px;
+            margin:auto auto auto auto;
+            font-size:22px;
+            color: #000000;
+        }
+
+        div.outerBorder {
+            position:relative;
+            top:400px;
+            width:600px;
+            height:44px;
+            margin:auto auto auto auto;
+            border:8px solid rgba(0,0,0,0.1);
+            background: rgb(252,252,252); /* Old browsers */
+            background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+            background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+            border-radius:72px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        }
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+<div id="loadingBar">
+    <div class="outerBorder">
+        <div id="text">0%</div>
+        <div id="border">
+            <div id="bar"></div>
+        </div>
+    </div>
+</div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"id": "liberal", "label": "liberal", "shape": "dot", "size": 10}, {"id": "people", "label": "people", "shape": "dot", "size": 10}, {"id": "proud", "label": "proud", "shape": "dot", "size": 10}, {"id": "husband", "label": "husband", "shape": "dot", "size": 10}, {"id": "lover", "label": "lover", "shape": "dot", "size": 10}, {"id": "wife", "label": "wife", "shape": "dot", "size": 10}, {"id": "mom", "label": "mom", "shape": "dot", "size": 10}, {"id": "trump", "label": "trump", "shape": "dot", "size": 10}, {"id": "republican", "label": "republican", "shape": "dot", "size": 10}, {"id": "#blacklivesmatter", "label": "#blacklivesmatter", "shape": "dot", "size": 10}, {"id": "maga", "label": "maga", "shape": "dot", "size": 10}, {"id": "conservative", "label": "conservative", "shape": "dot", "size": 10}, {"id": "#maga", "label": "#maga", "shape": "dot", "size": 10}, {"id": "progressive", "label": "progressive", "shape": "dot", "size": 10}, {"id": "activist", "label": "activist", "shape": "dot", "size": 10}, {"id": "political", "label": "political", "shape": "dot", "size": 10}, {"id": "democrat", "label": "democrat", "shape": "dot", "size": 10}, {"id": "party", "label": "party", "shape": "dot", "size": 10}, {"id": "go", "label": "go", "shape": "dot", "size": 10}, {"id": "2020", "label": "2020", "shape": "dot", "size": 10}, {"id": "vote", "label": "vote", "shape": "dot", "size": 10}, {"id": "like", "label": "like", "shape": "dot", "size": 10}, {"id": "i\u0027m", "label": "i\u0027m", "shape": "dot", "size": 10}, {"id": "fuck", "label": "fuck", "shape": "dot", "size": 10}, {"id": "american", "label": "american", "shape": "dot", "size": 10}, {"id": "i\u2019m", "label": "i\u2019m", "shape": "dot", "size": 10}, {"id": "president", "label": "president", "shape": "dot", "size": 10}, {"id": "constitution", "label": "constitution", "shape": "dot", "size": 10}, {"id": "his", "label": "his", "shape": "dot", "size": 10}, {"id": "#resist", "label": "#resist", "shape": "dot", "size": 10}, {"id": "army", "label": "army", "shape": "dot", "size": 10}, {"id": "god", "label": "god", "shape": "dot", "size": 10}, {"id": "bless", "label": "bless", "shape": "dot", "size": 10}, {"id": "veteran", "label": "veteran", "shape": "dot", "size": 10}, {"id": "patriot", "label": "patriot", "shape": "dot", "size": 10}, {"id": "left", "label": "left", "shape": "dot", "size": 10}, {"id": "country", "label": "country", "shape": "dot", "size": 10}, {"id": "love", "label": "love", "shape": "dot", "size": 10}, {"id": "get", "label": "get", "shape": "dot", "size": 10}, {"id": "christian", "label": "christian", "shape": "dot", "size": 10}, {"id": "america", "label": "america", "shape": "dot", "size": 10}, {"id": "single", "label": "single", "shape": "dot", "size": 10}, {"id": "strong", "label": "strong", "shape": "dot", "size": 10}, {"id": "business", "label": "business", "shape": "dot", "size": 10}, {"id": "supporter", "label": "supporter", "shape": "dot", "size": 10}, {"id": "4", "label": "4", "shape": "dot", "size": 10}, {"id": "mother", "label": "mother", "shape": "dot", "size": 10}, {"id": "donald", "label": "donald", "shape": "dot", "size": 10}, {"id": "\ud83c\uddfa\ud83c\uddf8", "label": "\ud83c\uddfa\ud83c\uddf8", "shape": "dot", "size": 10}, {"id": "know", "label": "know", "shape": "dot", "size": 10}, {"id": "support", "label": "support", "shape": "dot", "size": 10}, {"id": "hate", "label": "hate", "shape": "dot", "size": 10}, {"id": "hard", "label": "hard", "shape": "dot", "size": 10}, {"id": "animal", "label": "animal", "shape": "dot", "size": 10}, {"id": "owner", "label": "owner", "shape": "dot", "size": 10}, {"id": "loves", "label": "loves", "shape": "dot", "size": 10}, {"id": "2", "label": "2", "shape": "dot", "size": 10}, {"id": "life", "label": "life", "shape": "dot", "size": 10}, {"id": "father", "label": "father", "shape": "dot", "size": 10}, {"id": "retired", "label": "retired", "shape": "dot", "size": 10}, {"id": "military", "label": "military", "shape": "dot", "size": 10}, {"id": "#trump2020", "label": "#trump2020", "shape": "dot", "size": 10}, {"id": "#2a", "label": "#2a", "shape": "dot", "size": 10}, {"id": "man", "label": "man", "shape": "dot", "size": 10}, {"id": "#kag", "label": "#kag", "shape": "dot", "size": 10}, {"id": "us", "label": "us", "shape": "dot", "size": 10}, {"id": "constitutionalist", "label": "constitutionalist", "shape": "dot", "size": 10}, {"id": "pro", "label": "pro", "shape": "dot", "size": 10}, {"id": "#wwg1wga", "label": "#wwg1wga", "shape": "dot", "size": 10}, {"id": "citizen", "label": "citizen", "shape": "dot", "size": 10}, {"id": "jesus", "label": "jesus", "shape": "dot", "size": 10}, {"id": "#patriot", "label": "#patriot", "shape": "dot", "size": 10}, {"id": "#draintheswamp", "label": "#draintheswamp", "shape": "dot", "size": 10}, {"id": "years", "label": "years", "shape": "dot", "size": 10}, {"id": "ifb", "label": "ifb", "shape": "dot", "size": 10}, {"id": "#deplorable", "label": "#deplorable", "shape": "dot", "size": 10}, {"id": "#trump", "label": "#trump", "shape": "dot", "size": 10}, {"id": "#qanon", "label": "#qanon", "shape": "dot", "size": 10}, {"id": "libertarian", "label": "libertarian", "shape": "dot", "size": 10}, {"id": "new", "label": "new", "shape": "dot", "size": 10}, {"id": "#blm", "label": "#blm", "shape": "dot", "size": 10}, {"id": "happily", "label": "happily", "shape": "dot", "size": 10}, {"id": "married", "label": "married", "shape": "dot", "size": 10}, {"id": "2a", "label": "2a", "shape": "dot", "size": 10}, {"id": "fan", "label": "fan", "shape": "dot", "size": 10}, {"id": "family", "label": "family", "shape": "dot", "size": 10}, {"id": "feminist", "label": "feminist", "shape": "dot", "size": 10}, {"id": "her", "label": "her", "shape": "dot", "size": 10}, {"id": "she", "label": "she", "shape": "dot", "size": 10}, {"id": "blm", "label": "blm", "shape": "dot", "size": 10}, {"id": "rights", "label": "rights", "shape": "dot", "size": 10}, {"id": "music", "label": "music", "shape": "dot", "size": 10}, {"id": "musician", "label": "musician", "shape": "dot", "size": 10}, {"id": "artist", "label": "artist", "shape": "dot", "size": 10}, {"id": "writer", "label": "writer", "shape": "dot", "size": 10}, {"id": "digital", "label": "digital", "shape": "dot", "size": 10}, {"id": "him", "label": "him", "shape": "dot", "size": 10}, {"id": "he", "label": "he", "shape": "dot", "size": 10}, {"id": "\ud83c\udff3\ufe0f\u200d\ud83c\udf08", "label": "\ud83c\udff3\ufe0f\u200d\ud83c\udf08", "shape": "dot", "size": 10}, {"id": "#fbr", "label": "#fbr", "shape": "dot", "size": 10}, {"id": "things", "label": "things", "shape": "dot", "size": 10}, {"id": "acab", "label": "acab", "shape": "dot", "size": 10}]);
+        edges = new vis.DataSet([{"from": "liberal", "title": 3.0, "to": "people", "weight": 3.0}, {"from": "liberal", "title": 5.0, "to": "proud", "weight": 5.0}, {"from": "liberal", "title": 3.0, "to": "husband", "weight": 3.0}, {"from": "liberal", "title": 3.0, "to": "lover", "weight": 3.0}, {"from": "liberal", "title": 3.0, "to": "wife", "weight": 3.0}, {"from": "liberal", "title": 4.0, "to": "mom", "weight": 4.0}, {"from": "people", "title": 6.0, "to": "trump", "weight": 6.0}, {"from": "proud", "title": 3.0, "to": "republican", "weight": 3.0}, {"from": "proud", "title": 9.0, "to": "trump", "weight": 9.0}, {"from": "proud", "title": 3.0, "to": "#blacklivesmatter", "weight": 3.0}, {"from": "proud", "title": 6.0, "to": "maga", "weight": 6.0}, {"from": "husband", "title": 6.0, "to": "conservative", "weight": 6.0}, {"from": "husband", "title": 3.0, "to": "trump", "weight": 3.0}, {"from": "husband", "title": 4.0, "to": "#maga", "weight": 4.0}, {"from": "lover", "title": 3.0, "to": "progressive", "weight": 3.0}, {"from": "lover", "title": 3.0, "to": "activist", "weight": 3.0}, {"from": "wife", "title": 3.0, "to": "republican", "weight": 3.0}, {"from": "wife", "title": 3.0, "to": "#maga", "weight": 3.0}, {"from": "mom", "title": 7.0, "to": "trump", "weight": 7.0}, {"from": "mom", "title": 4.0, "to": "maga", "weight": 4.0}, {"from": "progressive", "title": 3.0, "to": "political", "weight": 3.0}, {"from": "democrat", "title": 3.0, "to": "party", "weight": 3.0}, {"from": "democrat", "title": 3.0, "to": "go", "weight": 3.0}, {"from": "democrat", "title": 3.0, "to": "2020", "weight": 3.0}, {"from": "democrat", "title": 3.0, "to": "vote", "weight": 3.0}, {"from": "democrat", "title": 4.0, "to": "trump", "weight": 4.0}, {"from": "party", "title": 5.0, "to": "republican", "weight": 5.0}, {"from": "2020", "title": 7.0, "to": "trump", "weight": 7.0}, {"from": "trump", "title": 6.0, "to": "conservative", "weight": 6.0}, {"from": "trump", "title": 3.0, "to": "republican", "weight": 3.0}, {"from": "trump", "title": 3.0, "to": "like", "weight": 3.0}, {"from": "trump", "title": 3.0, "to": "i\u0027m", "weight": 3.0}, {"from": "trump", "title": 3.0, "to": "fuck", "weight": 3.0}, {"from": "trump", "title": 3.0, "to": "american", "weight": 3.0}, {"from": "trump", "title": 3.0, "to": "i\u2019m", "weight": 3.0}, {"from": "trump", "title": 9.0, "to": "president", "weight": 9.0}, {"from": "trump", "title": 4.0, "to": "constitution", "weight": 4.0}, {"from": "trump", "title": 3.0, "to": "his", "weight": 3.0}, {"from": "trump", "title": 4.0, "to": "#resist", "weight": 4.0}, {"from": "trump", "title": 3.0, "to": "army", "weight": 3.0}, {"from": "trump", "title": 4.0, "to": "god", "weight": 4.0}, {"from": "trump", "title": 3.0, "to": "bless", "weight": 3.0}, {"from": "trump", "title": 4.0, "to": "veteran", "weight": 4.0}, {"from": "trump", "title": 6.0, "to": "patriot", "weight": 6.0}, {"from": "trump", "title": 3.0, "to": "left", "weight": 3.0}, {"from": "trump", "title": 4.0, "to": "country", "weight": 4.0}, {"from": "trump", "title": 9.0, "to": "love", "weight": 9.0}, {"from": "trump", "title": 4.0, "to": "get", "weight": 4.0}, {"from": "trump", "title": 5.0, "to": "christian", "weight": 5.0}, {"from": "trump", "title": 3.0, "to": "america", "weight": 3.0}, {"from": "trump", "title": 3.0, "to": "single", "weight": 3.0}, {"from": "trump", "title": 4.0, "to": "strong", "weight": 4.0}, {"from": "trump", "title": 4.0, "to": "business", "weight": 4.0}, {"from": "trump", "title": 16.0, "to": "supporter", "weight": 16.0}, {"from": "trump", "title": 4.0, "to": "4", "weight": 4.0}, {"from": "trump", "title": 3.0, "to": "mother", "weight": 3.0}, {"from": "trump", "title": 5.0, "to": "maga", "weight": 5.0}, {"from": "trump", "title": 9.0, "to": "donald", "weight": 9.0}, {"from": "trump", "title": 6.0, "to": "\ud83c\uddfa\ud83c\uddf8", "weight": 6.0}, {"from": "trump", "title": 3.0, "to": "know", "weight": 3.0}, {"from": "trump", "title": 5.0, "to": "#maga", "weight": 5.0}, {"from": "trump", "title": 3.0, "to": "support", "weight": 3.0}, {"from": "trump", "title": 3.0, "to": "hate", "weight": 3.0}, {"from": "trump", "title": 4.0, "to": "hard", "weight": 4.0}, {"from": "trump", "title": 4.0, "to": "animal", "weight": 4.0}, {"from": "trump", "title": 3.0, "to": "owner", "weight": 3.0}, {"from": "trump", "title": 4.0, "to": "loves", "weight": 4.0}, {"from": "trump", "title": 4.0, "to": "2", "weight": 4.0}, {"from": "trump", "title": 4.0, "to": "life", "weight": 4.0}, {"from": "conservative", "title": 5.0, "to": "patriot", "weight": 5.0}, {"from": "conservative", "title": 3.0, "to": "american", "weight": 3.0}, {"from": "conservative", "title": 7.0, "to": "father", "weight": 7.0}, {"from": "conservative", "title": 13.0, "to": "christian", "weight": 13.0}, {"from": "conservative", "title": 6.0, "to": "supporter", "weight": 6.0}, {"from": "conservative", "title": 3.0, "to": "retired", "weight": 3.0}, {"from": "conservative", "title": 3.0, "to": "military", "weight": 3.0}, {"from": "conservative", "title": 4.0, "to": "#trump2020", "weight": 4.0}, {"from": "conservative", "title": 4.0, "to": "god", "weight": 4.0}, {"from": "conservative", "title": 4.0, "to": "\ud83c\uddfa\ud83c\uddf8", "weight": 4.0}, {"from": "conservative", "title": 3.0, "to": "america", "weight": 3.0}, {"from": "conservative", "title": 3.0, "to": "#2a", "weight": 3.0}, {"from": "conservative", "title": 3.0, "to": "man", "weight": 3.0}, {"from": "conservative", "title": 7.0, "to": "#maga", "weight": 7.0}, {"from": "conservative", "title": 5.0, "to": "#kag", "weight": 5.0}, {"from": "conservative", "title": 3.0, "to": "us", "weight": 3.0}, {"from": "conservative", "title": 6.0, "to": "life", "weight": 6.0}, {"from": "conservative", "title": 3.0, "to": "constitutionalist", "weight": 3.0}, {"from": "conservative", "title": 4.0, "to": "pro", "weight": 4.0}, {"from": "conservative", "title": 4.0, "to": "love", "weight": 4.0}, {"from": "patriot", "title": 3.0, "to": "maga", "weight": 3.0}, {"from": "patriot", "title": 5.0, "to": "#maga", "weight": 5.0}, {"from": "father", "title": 8.0, "to": "#maga", "weight": 8.0}, {"from": "christian", "title": 3.0, "to": "maga", "weight": 3.0}, {"from": "christian", "title": 5.0, "to": "#maga", "weight": 5.0}, {"from": "supporter", "title": 3.0, "to": "maga", "weight": 3.0}, {"from": "supporter", "title": 4.0, "to": "#maga", "weight": 4.0}, {"from": "retired", "title": 4.0, "to": "activist", "weight": 4.0}, {"from": "#trump2020", "title": 10.0, "to": "#maga", "weight": 10.0}, {"from": "god", "title": 5.0, "to": "maga", "weight": 5.0}, {"from": "god", "title": 4.0, "to": "#maga", "weight": 4.0}, {"from": "\ud83c\uddfa\ud83c\uddf8", "title": 4.0, "to": "#maga", "weight": 4.0}, {"from": "america", "title": 5.0, "to": "#maga", "weight": 5.0}, {"from": "#2a", "title": 5.0, "to": "#maga", "weight": 5.0}, {"from": "#maga", "title": 19.0, "to": "#kag", "weight": 19.0}, {"from": "#maga", "title": 8.0, "to": "#wwg1wga", "weight": 8.0}, {"from": "#maga", "title": 5.0, "to": "citizen", "weight": 5.0}, {"from": "#maga", "title": 3.0, "to": "support", "weight": 3.0}, {"from": "#maga", "title": 3.0, "to": "us", "weight": 3.0}, {"from": "#maga", "title": 3.0, "to": "jesus", "weight": 3.0}, {"from": "#maga", "title": 5.0, "to": "#patriot", "weight": 5.0}, {"from": "#maga", "title": 3.0, "to": "#draintheswamp", "weight": 3.0}, {"from": "#maga", "title": 3.0, "to": "years", "weight": 3.0}, {"from": "#maga", "title": 3.0, "to": "ifb", "weight": 3.0}, {"from": "#maga", "title": 4.0, "to": "#deplorable", "weight": 4.0}, {"from": "#maga", "title": 4.0, "to": "#trump", "weight": 4.0}, {"from": "#maga", "title": 4.0, "to": "#qanon", "weight": 4.0}, {"from": "#maga", "title": 3.0, "to": "country", "weight": 3.0}, {"from": "life", "title": 4.0, "to": "libertarian", "weight": 4.0}, {"from": "life", "title": 3.0, "to": "maga", "weight": 3.0}, {"from": "love", "title": 6.0, "to": "maga", "weight": 6.0}, {"from": "republican", "title": 5.0, "to": "mother", "weight": 5.0}, {"from": "republican", "title": 3.0, "to": "new", "weight": 3.0}, {"from": "#resist", "title": 3.0, "to": "#blacklivesmatter", "weight": 3.0}, {"from": "#resist", "title": 3.0, "to": "#blm", "weight": 3.0}, {"from": "maga", "title": 3.0, "to": "happily", "weight": 3.0}, {"from": "maga", "title": 3.0, "to": "married", "weight": 3.0}, {"from": "maga", "title": 3.0, "to": "2a", "weight": 3.0}, {"from": "maga", "title": 3.0, "to": "fan", "weight": 3.0}, {"from": "maga", "title": 3.0, "to": "family", "weight": 3.0}, {"from": "feminist", "title": 4.0, "to": "her", "weight": 4.0}, {"from": "feminist", "title": 4.0, "to": "she", "weight": 4.0}, {"from": "her", "title": 5.0, "to": "#blacklivesmatter", "weight": 5.0}, {"from": "her", "title": 3.0, "to": "blm", "weight": 3.0}, {"from": "she", "title": 5.0, "to": "#blacklivesmatter", "weight": 5.0}, {"from": "she", "title": 5.0, "to": "blm", "weight": 5.0}, {"from": "activist", "title": 3.0, "to": "rights", "weight": 3.0}, {"from": "activist", "title": 5.0, "to": "music", "weight": 5.0}, {"from": "activist", "title": 4.0, "to": "musician", "weight": 4.0}, {"from": "activist", "title": 5.0, "to": "artist", "weight": 5.0}, {"from": "activist", "title": 3.0, "to": "writer", "weight": 3.0}, {"from": "#blacklivesmatter", "title": 3.0, "to": "digital", "weight": 3.0}, {"from": "#blacklivesmatter", "title": 4.0, "to": "him", "weight": 4.0}, {"from": "#blacklivesmatter", "title": 4.0, "to": "he", "weight": 4.0}, {"from": "#blacklivesmatter", "title": 3.0, "to": "\ud83c\udff3\ufe0f\u200d\ud83c\udf08", "weight": 3.0}, {"from": "#blm", "title": 3.0, "to": "#fbr", "weight": 3.0}, {"from": "#blm", "title": 3.0, "to": "things", "weight": 3.0}, {"from": "blm", "title": 5.0, "to": "acab", "weight": 5.0}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics",
+            "layout",
+            "selection",
+            "renderer"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+        network.on("stabilizationProgress", function(params) {
+      		document.getElementById('loadingBar').removeAttribute("style");
+	        var maxWidth = 496;
+	        var minWidth = 20;
+	        var widthFactor = params.iterations/params.total;
+	        var width = Math.max(minWidth,maxWidth * widthFactor);
+
+	        document.getElementById('bar').style.width = width + 'px';
+	        document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+	    });
+	    network.once("stabilizationIterationsDone", function() {
+	        document.getElementById('text').innerHTML = '100%';
+	        document.getElementById('bar').style.width = '496px';
+	        document.getElementById('loadingBar').style.opacity = 0;
+	        // really clean the dom element
+	        setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+	    });
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

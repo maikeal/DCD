@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d0" for="edge" attr.name="weight" attr.type="double" />
+  <graph edgedefault="undirected">
+    <node id="mother" />
+    <node id="love" />
+    <node id="and" />
+    <node id="father" />
+    <node id="conservative" />
+    <node id="god" />
+    <node id="mom" />
+    <node id="trump" />
+    <node id="dog" />
+    <node id="dad" />
+    <node id="liberal" />
+    <edge source="mother" target="love">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="mother" target="and">
+      <data key="d0">28.0</data>
+    </edge>
+    <edge source="love" target="father">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="love" target="mom">
+      <data key="d0">19.0</data>
+    </edge>
+    <edge source="love" target="trump">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="love" target="god">
+      <data key="d0">28.0</data>
+    </edge>
+    <edge source="love" target="and">
+      <data key="d0">193.0</data>
+    </edge>
+    <edge source="and" target="father">
+      <data key="d0">58.0</data>
+    </edge>
+    <edge source="and" target="mom">
+      <data key="d0">54.0</data>
+    </edge>
+    <edge source="and" target="dad">
+      <data key="d0">22.0</data>
+    </edge>
+    <edge source="and" target="conservative">
+      <data key="d0">11.0</data>
+    </edge>
+    <edge source="and" target="liberal">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="and" target="trump">
+      <data key="d0">24.0</data>
+    </edge>
+    <edge source="and" target="god">
+      <data key="d0">43.0</data>
+    </edge>
+    <edge source="and" target="dog">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="father" target="conservative">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="father" target="god">
+      <data key="d0">5.0</data>
+    </edge>
+    <edge source="conservative" target="trump">
+      <data key="d0">6.0</data>
+    </edge>
+    <edge source="mom" target="trump">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="mom" target="dog">
+      <data key="d0">14.0</data>
+    </edge>
+    <edge source="dog" target="dad">
+      <data key="d0">6.0</data>
+    </edge>
+  </graph>
+</graphml>
