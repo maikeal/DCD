@@ -5,11 +5,15 @@ import pandas as pd
 import sqlite3
 from datetime import datetime, timedelta
 
-# Set the Twitter API authentication
-api = twitter.Api(consumer_key='eTwR2lbd6dMxCq988wtWnBvGC',
-                  consumer_secret='IEsaSATulZcZyBE6QWxzK97dBU12wB7ORbVBk7kqUrYZNTfOxM',
-                  access_token_key='1404645710058987522-2tHLCZnMazsLg86yBKL3s5ZUrHX6hB',
-                  access_token_secret='B1YbGzAFbRrAOhLS1867uJIVza30v4GLifQIOb7gA04Cm')
+import constants
+consumer_key= constants.CONSUMER_KEY
+consumer_secret= constants.CONSUMER_SECRET
+access_token= constants.ACCESS_TOKEN
+access_token_secret= constants.ACCESS_TOKEN_SECRET
+
+auth = tw.OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_token_secret)
+api = tw.API(auth, wait_on_rate_limit=True)
 
 # set a handle
 handle = 'aoc'
