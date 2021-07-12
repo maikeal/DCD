@@ -11,7 +11,6 @@ import matplotlib
 #matplotlib.use('TkAgg') 
 import matplotlib.pyplot as plt
 import networkx as nx
-from networkx_viewer import Viewer
 from pyvis.network import Network
 import math
 import constants
