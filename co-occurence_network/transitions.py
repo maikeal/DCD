@@ -14,7 +14,7 @@ YEAR_1, YEAR_2 = '2015', '2020'
 
 REGEX_SEPARATORS = r"\s+|[.,\/!$%\^&\*;:{}=\-_`~()|\[\]\u2022]" # currently not including # or @ because of their relevance to Twitter text/functionality
 
-TRUMP_KEYWORDS = ['trump', 'maga']
+TRUMP_KEYWORDS = ['trump', 'maga', 'wwg1wwga']
 BLM_KEYWORDS = ['blm', 'blacklivesmatter', 'black%%lives matter']
 
 
@@ -183,6 +183,7 @@ p2_trump_output_template = "{0} % of users who included '{1}' in their bio in 20
 p1_blm_output_template = "{0} % of users who included 'black lives matter', 'blacklivesmatter', or 'blm' in their bio in 2020 had '{1}' in their bio in 2015."
 p2_blm_output_template = "{0} % of users who included '{1}' in their bio in 2015 had 'black lives matter', 'blacklivesmatter', or 'blm' in their bio in 2020."
 
+
 while(True):
 	token = input("Enter a token: ")
 
@@ -207,7 +208,12 @@ while(True):
 	print(p2_blm_output_template.format(result4, token))
 
 	print("-"*60)
-
+'''
+pprint(prob_token_x_in_2015_given_trump_in_2020('christian', trump_dict, kw_data=True))
+pprint(prob_token_x_in_2015_given_trump_in_2020('god', trump_dict, kw_data=True))
+pprint(prob_token_x_in_2015_given_trump_in_2020('father', trump_dict, kw_data=True))
+pprint(prob_token_x_in_2015_given_trump_in_2020('conservative', trump_dict, kw_data=True))
+'''
 '''
 p1_trump_output_template = "{0} % of users who included 'trump' or 'maga' in their bio in 2020 had '{1}' in their bio in 2015."
 p2_trump_output_template = "{0} % of users who included '{1}' in their bio in 2015 had 'trump' or 'maga' in their bio in 2020."
