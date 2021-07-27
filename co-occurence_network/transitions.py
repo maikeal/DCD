@@ -14,7 +14,7 @@ YEAR_1, YEAR_2 = '2015', '2020'
 
 REGEX_SEPARATORS = r"\s+|[.,\/!$%\^&\*;:{}=\-_`~()|\[\]\u2022]" # currently not including # or @ because of their relevance to Twitter text/functionality
 
-TRUMP_KEYWORDS = ['trump', 'maga', 'wwg1wwga']
+TRUMP_KEYWORDS = ['trump', 'maga']
 BLM_KEYWORDS = ['blm', 'blacklivesmatter', 'black%%lives matter']
 
 
