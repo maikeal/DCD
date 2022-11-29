@@ -1,0 +1,25 @@
+SELECT COUNT(*)
+FROM db15.one_bio_per_user_per_year a
+INNER JOIN db16.one_bio_per_user_per_year b ON a.user_id_str=b.user_id_str
+INNER JOIN db17.one_bio_per_user_per_year c ON b.user_id_str=c.user_id_str
+INNER JOIN db18.one_bio_per_user_per_year d ON c.user_id_str=d.user_id_str
+INNER JOIN db19.one_bio_per_user_per_year e ON d.user_id_str=e.user_id_str
+INNER JOIN db20.one_bio_per_user_per_year f ON e.user_id_str=f.user_id_str;
+
+CREATE TABLE all_common_users (
+user_id_str PRIMARY KEY,
+bio_2015 TEXT,
+bio_2016 TEXT,
+bio_2017 TEXT,
+bio_2018 TEXT,
+bio_2019 TEXT,
+bio_2020 TEXT
+)
+
+SELECT a.user_id_str as user_id_str, a.bio as bio_2015, b.bio as bio_2016, c.bio as bio_2017, d.bio as bio_2018, e.bio as bio_2019, f.bio as bio_2020
+FROM db15.one_bio_per_user_per_year a
+INNER JOIN db16.one_bio_per_user_per_year b ON a.user_id_str=b.user_id_str
+INNER JOIN db17.one_bio_per_user_per_year c ON b.user_id_str=c.user_id_str
+INNER JOIN db18.one_bio_per_user_per_year d ON c.user_id_str=d.user_id_str
+INNER JOIN db19.one_bio_per_user_per_year e ON d.user_id_str=e.user_id_str
+INNER JOIN db20.one_bio_per_user_per_year f ON e.user_id_str=f.user_id_str;

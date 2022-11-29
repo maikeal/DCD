@@ -1,0 +1,126 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 800px;
+            height: 600px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"id": "founder", "label": "founder", "shape": "dot", "size": 10}, {"id": "co", "label": "co", "shape": "dot", "size": 10}, {"id": "creator", "label": "creator", "shape": "dot", "size": 10}, {"id": "content", "label": "content", "shape": "dot", "size": 10}, {"id": "they", "label": "they", "shape": "dot", "size": 10}, {"id": "he", "label": "he", "shape": "dot", "size": 10}, {"id": "them", "label": "them", "shape": "dot", "size": 10}, {"id": "she", "label": "she", "shape": "dot", "size": 10}, {"id": "him", "label": "him", "shape": "dot", "size": 10}, {"id": "his", "label": "his", "shape": "dot", "size": 10}, {"id": "artist", "label": "artist", "shape": "dot", "size": 10}, {"id": "her", "label": "her", "shape": "dot", "size": 10}, {"id": "supporter", "label": "supporter", "shape": "dot", "size": 10}, {"id": "trump", "label": "trump", "shape": "dot", "size": 10}, {"id": "music", "label": "music", "shape": "dot", "size": 10}, {"id": "love", "label": "love", "shape": "dot", "size": 10}, {"id": "life", "label": "life", "shape": "dot", "size": 10}, {"id": "lover", "label": "lover", "shape": "dot", "size": 10}, {"id": "people", "label": "people", "shape": "dot", "size": 10}, {"id": "like", "label": "like", "shape": "dot", "size": 10}, {"id": "proud", "label": "proud", "shape": "dot", "size": 10}, {"id": "fan", "label": "fan", "shape": "dot", "size": 10}, {"id": "live", "label": "live", "shape": "dot", "size": 10}, {"id": "i\u0027m", "label": "i\u0027m", "shape": "dot", "size": 10}, {"id": "mom", "label": "mom", "shape": "dot", "size": 10}, {"id": "kids", "label": "kids", "shape": "dot", "size": 10}, {"id": "wife", "label": "wife", "shape": "dot", "size": 10}, {"id": "country", "label": "country", "shape": "dot", "size": 10}, {"id": "family", "label": "family", "shape": "dot", "size": 10}, {"id": "god", "label": "god", "shape": "dot", "size": 10}, {"id": "sports", "label": "sports", "shape": "dot", "size": 10}, {"id": "living", "label": "living", "shape": "dot", "size": 10}, {"id": "best", "label": "best", "shape": "dot", "size": 10}, {"id": "one", "label": "one", "shape": "dot", "size": 10}, {"id": "animal", "label": "animal", "shape": "dot", "size": 10}, {"id": "dog", "label": "dog", "shape": "dot", "size": 10}, {"id": "time", "label": "time", "shape": "dot", "size": 10}, {"id": "full", "label": "full", "shape": "dot", "size": 10}, {"id": "day", "label": "day", "shape": "dot", "size": 10}, {"id": "husband", "label": "husband", "shape": "dot", "size": 10}, {"id": "father", "label": "father", "shape": "dot", "size": 10}, {"id": "mother", "label": "mother", "shape": "dot", "size": 10}, {"id": "friends", "label": "friends", "shape": "dot", "size": 10}, {"id": "official", "label": "official", "shape": "dot", "size": 10}, {"id": "account", "label": "account", "shape": "dot", "size": 10}, {"id": "twitter", "label": "twitter", "shape": "dot", "size": 10}, {"id": "us", "label": "us", "shape": "dot", "size": 10}, {"id": "follow", "label": "follow", "shape": "dot", "size": 10}, {"id": "instagram", "label": "instagram", "shape": "dot", "size": 10}, {"id": "hard", "label": "hard", "shape": "dot", "size": 10}, {"id": "die", "label": "die", "shape": "dot", "size": 10}, {"id": "born", "label": "born", "shape": "dot", "size": 10}, {"id": "raised", "label": "raised", "shape": "dot", "size": 10}, {"id": "real", "label": "real", "shape": "dot", "size": 10}, {"id": "estate", "label": "estate", "shape": "dot", "size": 10}, {"id": "university", "label": "university", "shape": "dot", "size": 10}, {"id": "state", "label": "state", "shape": "dot", "size": 10}, {"id": "ig", "label": "ig", "shape": "dot", "size": 10}, {"id": "sc", "label": "sc", "shape": "dot", "size": 10}, {"id": "every", "label": "every", "shape": "dot", "size": 10}, {"id": "old", "label": "old", "shape": "dot", "size": 10}, {"id": "year", "label": "year", "shape": "dot", "size": 10}, {"id": "dad", "label": "dad", "shape": "dot", "size": 10}, {"id": "la", "label": "la", "shape": "dot", "size": 10}, {"id": "de", "label": "de", "shape": "dot", "size": 10}, {"id": "youtube", "label": "youtube", "shape": "dot", "size": 10}, {"id": "channel", "label": "channel", "shape": "dot", "size": 10}, {"id": "snapchat", "label": "snapchat", "shape": "dot", "size": 10}, {"id": "school", "label": "school", "shape": "dot", "size": 10}, {"id": "high", "label": "high", "shape": "dot", "size": 10}, {"id": "new", "label": "new", "shape": "dot", "size": 10}, {"id": "york", "label": "york", "shape": "dot", "size": 10}, {"id": "2", "label": "2", "shape": "dot", "size": 10}, {"id": "1", "label": "1", "shape": "dot", "size": 10}, {"id": "#kag", "label": "#kag", "shape": "dot", "size": 10}, {"id": "#maga", "label": "#maga", "shape": "dot", "size": 10}, {"id": "matter", "label": "matter", "shape": "dot", "size": 10}, {"id": "lives", "label": "lives", "shape": "dot", "size": 10}, {"id": "black", "label": "black", "shape": "dot", "size": 10}, {"id": "video", "label": "video", "shape": "dot", "size": 10}, {"id": "games", "label": "games", "shape": "dot", "size": 10}, {"id": "tv", "label": "tv", "shape": "dot", "size": 10}, {"id": "twitch", "label": "twitch", "shape": "dot", "size": 10}, {"id": "streamer", "label": "streamer", "shape": "dot", "size": 10}]);
+        edges = new vis.DataSet([{"from": "founder", "title": 22, "to": "co", "weight": 22.0}, {"from": "creator", "title": 31, "to": "content", "weight": 31.0}, {"from": "they", "title": 16, "to": "he", "weight": 16.0}, {"from": "they", "title": 31, "to": "them", "weight": 31.0}, {"from": "they", "title": 28, "to": "she", "weight": 28.0}, {"from": "he", "title": 90, "to": "him", "weight": 90.0}, {"from": "he", "title": 27, "to": "his", "weight": 27.0}, {"from": "she", "title": 16, "to": "artist", "weight": 16.0}, {"from": "she", "title": 136, "to": "her", "weight": 136.0}, {"from": "supporter", "title": 16, "to": "trump", "weight": 16.0}, {"from": "him", "title": 23, "to": "his", "weight": 23.0}, {"from": "music", "title": 31, "to": "love", "weight": 31.0}, {"from": "music", "title": 19, "to": "life", "weight": 19.0}, {"from": "music", "title": 28, "to": "lover", "weight": 28.0}, {"from": "love", "title": 52, "to": "life", "weight": 52.0}, {"from": "love", "title": 18, "to": "people", "weight": 18.0}, {"from": "love", "title": 17, "to": "like", "weight": 17.0}, {"from": "love", "title": 18, "to": "proud", "weight": 18.0}, {"from": "love", "title": 17, "to": "fan", "weight": 17.0}, {"from": "love", "title": 23, "to": "live", "weight": 23.0}, {"from": "love", "title": 23, "to": "i\u0027m", "weight": 23.0}, {"from": "love", "title": 19, "to": "mom", "weight": 19.0}, {"from": "love", "title": 16, "to": "kids", "weight": 16.0}, {"from": "love", "title": 20, "to": "wife", "weight": 20.0}, {"from": "love", "title": 16, "to": "country", "weight": 16.0}, {"from": "love", "title": 34, "to": "family", "weight": 34.0}, {"from": "love", "title": 28, "to": "god", "weight": 28.0}, {"from": "love", "title": 18, "to": "sports", "weight": 18.0}, {"from": "life", "title": 44, "to": "living", "weight": 44.0}, {"from": "life", "title": 17, "to": "god", "weight": 17.0}, {"from": "life", "title": 21, "to": "best", "weight": 21.0}, {"from": "life", "title": 22, "to": "live", "weight": 22.0}, {"from": "life", "title": 16, "to": "one", "weight": 16.0}, {"from": "lover", "title": 17, "to": "wife", "weight": 17.0}, {"from": "lover", "title": 26, "to": "mom", "weight": 26.0}, {"from": "lover", "title": 20, "to": "animal", "weight": 20.0}, {"from": "lover", "title": 16, "to": "dog", "weight": 16.0}, {"from": "time", "title": 25, "to": "full", "weight": 25.0}, {"from": "time", "title": 17, "to": "one", "weight": 17.0}, {"from": "one", "title": 16, "to": "day", "weight": 16.0}, {"from": "like", "title": 18, "to": "i\u0027m", "weight": 18.0}, {"from": "proud", "title": 20, "to": "mom", "weight": 20.0}, {"from": "proud", "title": 17, "to": "husband", "weight": 17.0}, {"from": "proud", "title": 17, "to": "father", "weight": 17.0}, {"from": "fan", "title": 28, "to": "sports", "weight": 28.0}, {"from": "fan", "title": 17, "to": "husband", "weight": 17.0}, {"from": "mom", "title": 49, "to": "wife", "weight": 49.0}, {"from": "wife", "title": 34, "to": "mother", "weight": 34.0}, {"from": "family", "title": 22, "to": "friends", "weight": 22.0}, {"from": "family", "title": 27, "to": "god", "weight": 27.0}, {"from": "official", "title": 29, "to": "account", "weight": 29.0}, {"from": "official", "title": 45, "to": "twitter", "weight": 45.0}, {"from": "account", "title": 30, "to": "twitter", "weight": 30.0}, {"from": "us", "title": 21, "to": "follow", "weight": 21.0}, {"from": "follow", "title": 20, "to": "instagram", "weight": 20.0}, {"from": "hard", "title": 17, "to": "die", "weight": 17.0}, {"from": "born", "title": 33, "to": "raised", "weight": 33.0}, {"from": "real", "title": 40, "to": "estate", "weight": 40.0}, {"from": "university", "title": 22, "to": "state", "weight": 22.0}, {"from": "ig", "title": 16, "to": "sc", "weight": 16.0}, {"from": "day", "title": 22, "to": "every", "weight": 22.0}, {"from": "old", "title": 22, "to": "year", "weight": 22.0}, {"from": "husband", "title": 103, "to": "father", "weight": 103.0}, {"from": "husband", "title": 32, "to": "dad", "weight": 32.0}, {"from": "la", "title": 18, "to": "de", "weight": 18.0}, {"from": "youtube", "title": 21, "to": "channel", "weight": 21.0}, {"from": "snapchat", "title": 21, "to": "instagram", "weight": 21.0}, {"from": "school", "title": 35, "to": "high", "weight": 35.0}, {"from": "new", "title": 21, "to": "york", "weight": 21.0}, {"from": "2", "title": 18, "to": "1", "weight": 18.0}, {"from": "#kag", "title": 19, "to": "#maga", "weight": 19.0}, {"from": "matter", "title": 21, "to": "lives", "weight": 21.0}, {"from": "matter", "title": 20, "to": "black", "weight": 20.0}, {"from": "lives", "title": 20, "to": "black", "weight": 20.0}, {"from": "video", "title": 30, "to": "games", "weight": 30.0}, {"from": "tv", "title": 30, "to": "twitch", "weight": 30.0}, {"from": "twitch", "title": 23, "to": "streamer", "weight": 23.0}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics",
+            "layout",
+            "selection",
+            "renderer"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+EXPLICIT_LIBERAL_KEYWORDS = ('liberal', 'progressive', 'democrat', 'socialist', 'voteblue')
+IMPLICIT_LIBERAL_KEYWORDS = ('blm', 'blacklivesmatter', 'black%lives%matter', 'feminist', 'free%palestine', '%feelthebern%', 'bidenharris', 'biden')
+LIBERAL_KEYWORDS = EXPLICIT_LIBERAL_KEYWORDS + IMPLICIT_LIBERAL_KEYWORDS
+
+EXPLICIT_CONSERVATIVE_KEYWORDS = ('conservative', 'republican', 'libertarian')
+IMPLICIT_CONSERVATIVE_KEYWORDS = ('trump', 'maga', 'kag', 'deplorable', 'backtheblue', 'bluelivesmatter', 'alllivesmatter', 'wwg1wga', 'qanon', 'nra', 'cancel culture')
+CONSERVATIVE_KEYWORDS = EXPLICIT_CONSERVATIVE_KEYWORDS + IMPLICIT_CONSERVATIVE_KEYWORDS
+
+
+SELECT COUNT(*) FROM all_common_users WHERE bio_2020 LIKE '%liberal%' OR bio_2020 LIKE '%progressive%' OR bio_2020 LIKE '%democrat%' OR bio_2020 LIKE '%blm%' OR bio_2020 LIKE '%blacklivesmatter%' OR bio_2020 LIKE '%black%livesmatter%' OR bio_2020 LIKE '%black lives matter%' OR bio_2020 LIKE '%feminist%' OR bio_2020 LIKE '%socialist%' OR bio_2020 LIKE '%free%palestine%' OR bio_2020 LIKE '%feelthebern%' OR bio_2020 LIKE '%bidenharris%' OR bio_2020 LIKE '%biden2020%' OR bio_2020 LIKE '%voteblue%';
+
+SELECT COUNT(*) FROM all_common_users WHERE bio_2020 LIKE '%conservative%' OR bio_2020 LIKE '%republican%' OR bio_2020 LIKE '%trump%' OR bio_2020 LIKE '%maga%' OR bio_2020 LIKE '%kag%' OR bio_2020 LIKE '%deplorable%' OR bio_2020 LIKE '%backtheblue%' OR bio_2020 LIKE '%wwg1wga%' OR bio_2020 LIKE '%qanon%' OR bio_2020 LIKE '%libertarian%' OR bio_2020 LIKE '%cancel culture%' OR bio_2020 LIKE '%nra%';
+
+SELECT * FROM all_common_users WHERE (bio_2020 LIKE '%liberal%' OR bio_2020 LIKE '%progressive%' OR bio_2020 LIKE '%democrat%' OR bio_2020 LIKE '%blm%' OR bio_2020 LIKE '%blacklivesmatter%' OR bio_2020 LIKE '%black%livesmatter%' OR bio_2020 LIKE '%black lives matter%' OR bio_2020 LIKE '%feminist%' OR bio_2020 LIKE '%socialist%' OR bio_2020 LIKE '%free%palestine%' OR bio_2020 LIKE '%feelthebern%' OR bio_2020 LIKE '%bidenharris%' OR bio_2020 LIKE '%biden2020%' OR bio_2020 LIKE '%voteblue%') OR (bio_2020 LIKE '%conservative%' OR bio_2020 LIKE '%republican%' OR bio_2020 LIKE '%trump%' OR bio_2020 LIKE '%maga%' OR bio_2020 LIKE '%kag%' OR bio_2020 LIKE '%deplorable%' OR bio_2020 LIKE '%backtheblue%' OR bio_2020 LIKE '%wwg1wga%' OR bio_2020 LIKE '%qanon%' OR bio_2020 LIKE '%libertarian%' OR bio_2020 LIKE '%cancel culture%' OR bio_2020 LIKE '%nra%');
+
+INSERT INTO political_bios SELECT user_id_str, bio_2015, bio_2020, -1 as conservatism FROM all_common_users WHERE bio_2020 LIKE '%liberal%' OR bio_2020 LIKE '%progressive%' OR bio_2020 LIKE '%democrat%' OR bio_2020 LIKE '%blm%' OR bio_2020 LIKE '%blacklivesmatter%' OR bio_2020 LIKE '%black%lives%matter%' OR bio_2020 LIKE '%feminist%' OR bio_2020 LIKE '%socialist%' OR bio_2020 LIKE '%free%palestine%' OR bio_2020 LIKE '%feelthebern%' OR bio_2020 LIKE '%bidenharris%' OR bio_2020 LIKE '%biden2020%' OR bio_2020 LIKE '%voteblue%';
+
+INSERT OR IGNORE INTO political_bios 
+SELECT user_id_str, bio_2015, bio_2020, 1 as conservatism FROM all_common_users 
+WHERE bio_2020 LIKE '%conservative%' OR bio_2020 LIKE '%republican%' OR bio_2020 LIKE '%libertarian%' OR bio_2020 LIKE '%trump%' OR bio_2020 LIKE '%maga%' OR bio_2020 LIKE '%kag%' OR bio_2020 LIKE '%deplorable%' OR bio_2020 LIKE '%backtheblue%' OR bio_2020 LIKE '%bluelivesmatter%' OR bio_2020 LIKE '%alllivesmatter%' OR bio_2020 LIKE '%wwg1wga%' OR bio_2020 LIKE '%qanon%' OR bio_2020 LIKE '%nra%' or bio_2020 LIKE '%cancel culture%';
+
+INSERT INTO political_bios SELECT user_id_str, bio_2015, bio_2016, bio_2017, bio_2018, bio_2019, bio_2020, -1 as ideology FROM all_common_users WHERE bio_2020 LIKE '%liberal%' OR bio_2020 LIKE '%progressive%' OR bio_2020 LIKE '%democrat%' OR bio_2020 LIKE '%blm%' OR bio_2020 LIKE '%blacklivesmatter%' OR bio_2020 LIKE '%black%lives%matter%' OR bio_2020 LIKE '%feminist%' OR bio_2020 LIKE '%socialist%' OR bio_2020 LIKE '%free%palestine%' OR bio_2020 LIKE '%feelthebern%' OR bio_2020 LIKE '%bidenharris%' OR bio_2020 LIKE '%biden2020%' OR bio_2020 LIKE '%voteblue%';
+
+UPDATE political_bios SET ideology=0 WHERE bio_2020 LIKE '%conservative%' OR bio_2020 LIKE '%republican%' OR bio_2020 LIKE '%libertarian%' OR bio_2020 LIKE '%trump%' OR bio_2020 LIKE '%maga%' OR bio_2020 LIKE '%kag%' OR bio_2020 LIKE '%deplorable%' OR bio_2020 LIKE '%backtheblue%' OR bio_2020 LIKE '%bluelivesmatter%' OR bio_2020 LIKE '%alllivesmatter%' OR bio_2020 LIKE '%wwg1wga%' OR bio_2020 LIKE '%qanon%' OR bio_2020 LIKE '%nra%' or bio_2020 LIKE '%cancel culture%';
+
+INSERT OR IGNORE INTO political_bios 
+SELECT user_id_str, bio_2015, bio_2016, bio_2017, bio_2018, bio_2019, bio_2020, 1 as ideology FROM all_common_users 
+WHERE bio_2020 LIKE '%conservative%' OR bio_2020 LIKE '%republican%' OR bio_2020 LIKE '%libertarian%' OR bio_2020 LIKE '%trump%' OR bio_2020 LIKE '%maga%' OR bio_2020 LIKE '%kag%' OR bio_2020 LIKE '%deplorable%' OR bio_2020 LIKE '%backtheblue%' OR bio_2020 LIKE '%bluelivesmatter%' OR bio_2020 LIKE '%alllivesmatter%' OR bio_2020 LIKE '%wwg1wga%' OR bio_2020 LIKE '%qanon%' OR bio_2020 LIKE '%nra%' or bio_2020 LIKE '%cancel culture%';
+
+INSERT OR IGNORE INTO political_bios 
+SELECT user_id_str, bio_2015, bio_2016, bio_2017, bio_2018, bio_2019, bio_2020, -1 as ideology FROM all_common_users WHERE bio_2020 LIKE '%impeach%trump%'
+
+SELECT COUNT(*) FROM political_bios WHERE (bio_2020 LIKE '%kag%') AND NOT (bio_2020 LIKE '%conservative%' OR bio_2020 LIKE '%republican%' OR bio_2020 LIKE '%trump%' OR bio_2020 LIKE '%maga%' OR bio_2020 LIKE '%deplorable%' OR bio_2020 LIKE '%backtheblue%' OR bio_2020 LIKE '%wwg1wga%' OR bio_2020 LIKE '%qanon%' OR bio_2020 LIKE '%libertarian%' OR bio_2020 LIKE '%cancel culture%' OR bio_2020 LIKE '%nra%');
+
+SELECT COUNT(*) FROM political_bios WHERE (bio_2020 LIKE '%trumpet%') AND NOT (bio_2020 LIKE '%conservative%' OR bio_2020 LIKE '%republican%' OR bio_2020 LIKE '%kag%' OR bio_2020 LIKE '%maga%' OR bio_2020 LIKE '%deplorable%' OR bio_2020 LIKE '%backtheblue%' OR bio_2020 LIKE '%wwg1wga%' OR bio_2020 LIKE '%qanon%' OR bio_2020 LIKE '%libertarian%' OR bio_2020 LIKE '%cancel culture%' OR bio_2020 LIKE '%nra%');
+
+SELECT ideology, COUNT(*) FROM political_bios WHERE (bio_2020 LIKE '%trumpet%') AND NOT (bio_2020 LIKE '%conservative%' OR bio_2020 LIKE '%republican%' OR bio_2020 LIKE '%kag%' OR bio_2020 LIKE '%maga%' OR bio_2020 LIKE '%deplorable%' OR bio_2020 LIKE '%backtheblue%' OR bio_2020 LIKE '%wwg1wga%' OR bio_2020 LIKE '%qanon%' OR bio_2020 LIKE '%libertarian%' OR bio_2020 LIKE '%cancel culture%' OR bio_2020 LIKE '%nra%') GROUP BY ideology;
+
+INSERT OR IGNORE INTO political_bios 
+SELECT user_id_str, bio_2015, bio_2016, bio_2017, bio_2018, bio_2019, bio_2020, 1 as ideology FROM all_common_users 
+WHERE bio_2020 LIKE '%tcot%';
